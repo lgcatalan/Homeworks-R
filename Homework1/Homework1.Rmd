@@ -1,0 +1,54 @@
+---
+title: "Homework 1"
+output:
+  html_notebook: default
+  pdf_document: default
+---
+
+Librerias
+```{r}
+library("randomNames")
+```
+Construya una matriz de 5x5 con números aleatorios decimales que vayan en un rango de 160 a 200. Esta matriz contendrá los pesos (en libras) de varias personas. Asigne un nombre descriptivo a esta matriz.
+```{r}
+pesos <- runif(n = 5*5, min = 160, max = 200)
+matriz_pesos <- matrix(data = pesos, nrow = 5)
+matriz_pesos
+```
+
+Asigne los meses enero a mayo como nombre de cada columna
+```{r}
+colnames(matriz_pesos) <- c("enero", "febrero", "marzo", "abril", "mayo")
+matriz_pesos
+```
+Asigne 5 nombres de persona, que sean aleatorios y que se utilicen como nombre de cada fila 
+```{r}
+rownames(matriz_pesos) <- randomNames(n = 5,ethnicity = 4, which.names = "first")
+matriz_pesos
+```
+
+Construya un vector que contenga el peso promedio de cada persona durante los meses de enero a mayo 
+
+```{r}
+promedio_xpersona <- rowMeans(matriz_pesos) 
+promedio_xpersona
+```
+
+Construya un vector que contenga el peso promedio en cada mes para todas las personas
+
+```{r}
+promedio_xmes <- colMeans(matriz_pesos) 
+promedio_xmes
+```
+
+
+Utilice cbind y rbind para agregar la columna del promedio de peso y la fila del promedio por mes.
+
+```{r}
+matriz_pesos_final <- rbind(matriz_pesos, promedio_xmes)
+promedio_xpersona <- c(promedio_xmes, mean(matriz_pesos_final[6,]))
+matriz_pesos_final <- cbind(matriz_pesos_final, promedio_xpersona)
+colnames(matriz_pesos_final)[6] <- c("Promedio")
+rownames(matriz_pesos_final)[6] <- c("Promedio")
+matriz_pesos_final
+```
