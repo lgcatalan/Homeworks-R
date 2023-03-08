@@ -1,0 +1,179 @@
+---
+title: "Homework 2"
+output: html_notebook
+---
+
+# Funciones en R
+
+Las funciones son bloques de código reutilizable que permiten realizar
+tareas específicas. Estas funciones pueden ser creadas por el usuario o
+estar disponibles en paquetes predefinidos.
+
+
+## Estructura de una función en R
+
+---
+__Entradas o argumentos__
+---
+
+Sirven para ingresar información necesaria para realizar el procedimiento de la función. Los argumentos pueden estar vacíos y a la espera de que el usuario ingrese valores, o pueden tener valores por defecto. Además, función puede tener o no argumentos de entrada.
+
+---
+__Cuerpo__
+---
+
+Esta formado por un con junto de instrucciones que transforman las entradas en las salidas deseadas. 
+Si el cuerpo de la reunión está formado por varias instrucciones estas deben ir entre llaves {}. 
+
+---
+__Salidas__
+---
+
+Son los resultados de la función. Toda función debe tener al menos un resultado. 
+
+---
+__Estructura general de una función__
+---
+```{r}
+#nombre_de_función <- function(arg1, arg2, ...){
+#  cuerpo
+#  return(resultado)
+#}
+```
+
+### Ejemplo de una función
+
+A continuación se realizará una función que sume dos números bajo el siguiente esquema 
+$$ f(x,y) = x + y$$
+
+```{r}
+suma <- function(x, y){
+  resultado <- x + y
+  return(resultado)
+}
+
+a <- 1
+b <- 1
+
+suma(a,b)
+```
+
+---
+__Argumentos por valor__
+---
+
+De manera general, los argumentos pueden ser pasados por valor o por referencia. La diferencia radica en si modifican la variable original o no, los argumentos por valor no modifican dicho valor, cada una de las operaciones que se realizan en una copia de este.
+
+# Familia de funciones ```apply()``` 
+
+La familia de datos ```apply``` es usada para aplicar una función a cada elemento de una estructura de datos. En particular, para aplicar funciones en matrices, data frames, arrays y listas.
+
+La familia ```apply``` tiene asociada todas estas funciones
+
+* ```apply()```
+* ```eapply()```
+* ```lapply()```
+* ```mapply()```
+* ```rapply()```
+* ```sapply()```
+* ```tapply()```
+* ```vapply()```
+* etc.
+
+Todas las funciones tienen en común recibir argumentos a un objeto o función, asi como cada una de esas tiene aplicaciones bastante específicas.
+
+---
+```apply()``` 
+---
+
+Aplica una función a todos los elementos de una matrix, dataframe o tibble. 
+
+Su estructura es la siguiente
+
+```{r}
+#apply(X, MARGIN, FUN)
+```
+Donde, 
+
+* ```X``` se refiere a una matriz o un dataframe.
+* ```MARGIN``` La dimensión (margen) que agrupará los elementos de  ```X```. Puede tomar valores de $1$ para filas y $2$ para columnas.
+* ```FUN``` La función que será aplicada a la matrix ```X``` en su dimensión ```MARGIN```
+
+---
+Ejemplo de ```apply()```
+---
+
+
+```{r}
+data = data.frame(x1 = runif(5), x2 = runif(5))
+
+y <-apply(X = data, MARGIN = 1, FUN = mean)
+z <- apply(X = data, MARGIN = 2, FUN = mean)
+y
+class(y)
+z
+class(z)
+
+```
+
+---
+```lapply()```
+---
+
+Se aplica sobre lista o vectores y retorna una lista. La función tiene dos argumentos. 
+
+* ```X``` Una lista o vector
+* ```FUN``` La función que se aplicará a ```X```.
+
+---
+Ejemplo de ```lapply()```
+---
+
+```{r}
+x <- list(a = runif(5), b = runif(5))
+y <- lapply(x, mean)
+y
+class(y)
+```
+
+---
+```sapply()``` 
+---
+
+Se aplica a una lista, vector o dataframe y retorna un vector o una  matriz. La función tiene dos argumentos. 
+
+* ```X``` Una lista, vector o dataframe
+* ```FUN``` La función que se aplicará a ```X```.
+
+---
+Ejemplo de ```sapply()```
+---
+
+```{r}
+x <- list(a = runif(5), b = runif(5))
+y <- sapply(x, mean)
+y
+class(y)
+
+```
+
+---
+```vapply()``` 
+---
+
+Se aplica a un vector y retorna una lista o un vector. La función tiene tres argumentos. 
+
+* ```X``` Un variable que sea un vector.
+* ```FUN``` La función que se aplicará a ```X```.
+* ```FUN.VALUE``` Especifica el tipo de datos. 
+
+---
+Ejemplo de ```vapply()```
+---
+
+```{r}
+x <- list(a = runif(5), b = runif(5))
+y <- vapply(x, mean, numeric(1))
+y
+class(y)
+```
