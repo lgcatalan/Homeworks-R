@@ -1,0 +1,96 @@
+---
+title: "Homework 3"
+output: html_notebook
+---
+
+---
+Comandos
+---
+
+__Como leer un archivo csv__
+
+Para leer archivos de texto separados por comas (.csv) se puede utilizar la función read.csV(). 
+
+Los argumentos de esta función son los siguientes:
+
+* file (tipo carácter), hace referencia de la ruta del archivo que se desea importar
+* header (tipo lógico), si la primera fila incliuye nombres de las variables, 
+* sep (tipo carácter), indica el carácter que se utiliza para separar cada celda, generalmente se refiere a una coma en un archivo csv.
+* stringsAsFactors (tipo lógico), indica si los datos contiene valores de texto se cargaran como factores automaticamente.
+
+Ejemplo
+```{r}
+#  datos <- read.csv("ruta/datos.csv")
+```
+
+__Función select() del paquete dplry__
+
+El comando select permite seleccionar o dejar de seleccionar columnas específicasde acuerdo a sus nombres en el orden que sean expresados los argumentos de la función inmediatamente siguientes al data frame objetivo que es expresado como primer argumento. 
+
+Ejemplo
+```{r}
+#  my_dataframe %>% select(col1, col2, col3)
+#  my_dataframe %>% select(-col1, -col2)
+```
+
+---
+__Aplicación de comandos__
+---
+
+Carga de librerias
+
+```{r}
+  library("dplyr")
+```
+
+Lectura de archivo primary_results.csv
+
+```{r}
+  dataset_results <- read.csv(paste0(getwd(),"/primary_results.csv"))
+```
+
+1. Filtrar todos los votos del estado de Florida
+
+```{r}
+  dataset_results %>% filter(state == "Florida")
+```
+
+2. Utilice operadores lógicos (& and |), según corresponda:
+
+  2.1. Filtrar votos para los candidatos Hillary Clinton o Donald Trump
+
+```{r}
+  dataset_results %>% filter(candidate == "Hillary Clinton" | candidate ==  "Donald Trump")
+```
+  2.2. Filtrar votos para el partido Demócrata y el condado Shelby
+
+```{r}
+  dataset_results %>% filter(party == "Democrat" & county ==  "Shelby")
+```
+
+  2.3. Filtrar votos para el estado de Alabama y que la cantidad de votos sea mayor a 15000.
+  
+```{r}
+  dataset_results %>% filter(state == "Alabama" & votes > 15000)
+```
+  
+3. Utilice la función select y arrange para el siguiente filtrado:
+
+  3.1. Filtrar votos para el estado de Texas y el condado Denton, seleccionando únicamente las columnas party, candidate, votes, luego ordene de forma descendente por la columna votes.
+
+```{r}
+  dataset_results %>% filter(state == "Texas" & county == "Denton") %>% select(party, candidate, votes) %>% arrange(desc(votes))
+```
+
+
+4. Utilice el verbo mutate y arrange para el siguiente filtrado:
+
+  4.1. Filtrar por el partido Republicano, que el candidato sea Ted Cruz en el estado de Alaska, luego agregue una columna que se llame vote_count que sea la división de votes por fraction_votes (votes/fraction_votes), finalmente ordene de forma descendente por vote_count
+
+```{r}
+  dataset_results %>% filter(party == "Republican" & candidate == "Ted Cruz" & state == "Alaska") %>% mutate(vote_count = votes/fraction_votes) %>% arrange(desc(vote_count))
+```
+
+
+
+
